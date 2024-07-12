@@ -6,6 +6,7 @@ from telethon.tl.functions.account import UpdateProfileRequest
 from PIL import Image
 from telethon.tl.functions.photos import UploadProfilePhotoRequest, UpdateProfilePhotoRequest
 from update_photo_with_time import new_photo
+import pytz
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -13,6 +14,7 @@ api_id = os.getenv('API_ID')
 api_hash = os.getenv('API_HASH')
 phone_number = os.getenv('PHONE')
 session_file_path = "Telegram.session"
+timezone = pytz.timezone(os.getenv('TIMEZONE'))
 
 client = TelegramClient(session_file_path, api_id, api_hash)
 
@@ -25,7 +27,7 @@ async def update_profile_picture():
     # Replace with the path to your image file
     is_first = True
     while True:
-        now = datetime.now()
+        now = datetime.now(timezone)
         seconds_to_next_minute = 60 - now.second
         next_minute_time = now + timedelta(seconds=seconds_to_next_minute)
         current_time = next_minute_time.strftime("%H:%M")
